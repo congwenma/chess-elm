@@ -15,11 +15,7 @@ import Components.Hello exposing (hello)
 
 main : Program Never Model Msg
 main =
-    Html.beginnerProgram
-        { model = model
-        , view = view
-        , update = update
-        }
+    Html.beginnerProgram { model = model, view = view, update = update }
 
 
 
