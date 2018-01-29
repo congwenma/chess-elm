@@ -1,5 +1,28 @@
 $icon-font-path: '~bootstrap-sass/assets/fonts/bootstrap/';
 @import '~bootstrap-sass/assets/stylesheets/bootstrap/_mixins.scss';
 @import '~bootstrap-sass/assets/stylesheets/_bootstrap.scss';
-
+@import '~basscss/css/basscss-important.css';
+@import '~flexboxgrid/css/flexboxgrid.css';
 // can add Boostrap overrides, additional Sass/CSS below...
+
+$BOARD_WIDTH: 800px;
+$CELL_WIDTH: $BOARD_WIDTH / 8;
+
+.chess-board {
+  width: $BOARD_WIDTH;
+  background: green;
+  > .chess-row {
+    > .chess-cell {
+      &.black { background: #555 }
+      border: 1px solid black;
+      background: white;
+      height: $CELL_WIDTH;
+      width: $CELL_WIDTH;
+    }
+  }
+}
+
+.chess-pieces  {
+  width: $BOARD_WIDTH;
+  height: $BOARD_WIDTH;
+}
