@@ -22,7 +22,8 @@ $CELL_WIDTH: $BOARD_WIDTH / 8;
   }
 }
 
-.chess-pieces  {
-  width: $BOARD_WIDTH;
-  height: $BOARD_WIDTH;
+.chesspiece  {
+  font-size: $CELL_WIDTH / 2;
+  width: $CELL_WIDTH;
+  height: $CELL_WIDTH;
 }

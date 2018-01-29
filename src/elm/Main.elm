@@ -5,6 +5,8 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (onClick)
 import Landscape exposing (grid)
 import Debug exposing (..)
+import Models.Avatar exposing (..)
+import Json.Encode exposing (string)
 
 
 -- component import example
@@ -60,5 +62,33 @@ view model =
             grid
         , div
             [ class "chess-pieces" ]
+            (List.map renderPiece gameSet)
+        ]
+
+
+getPixels n =
+    (toString n) ++ "px"
+
+
+renderPiece : Piece -> Html Msg
+renderPiece piece =
+    div
+        [ class "chesspiece absolute"
+        , style
+            [ ( "left", getPixels <| piece.x * 100 )
+            , ( "top", getPixels <| piece.y * 100 )
+            ]
+        ]
+        [ span
+            [ property "innerHTML"
+                (string
+                    (String.join ""
+                        [ "&#"
+                        , getPieceIcon piece.avatar.name piece.avatar.faction
+                        , ";"
+                        ]
+                    )
+                )
+            ]
             []
         ]
