@@ -8,6 +8,7 @@ elm-app start
 1. UI Layout, preferably with html rather than svg
   1.1 [x] create grids, and color theme
   1.2 [-] create concept of models
-  1.3 [-] setup models
-  1.4 [-] create model's move options
+  1.3 [-] create selectable state
+  1.4 [-] setup moves
+  1.5 [-] create model's move options
 2. AI.
