@@ -3,14 +3,26 @@ module Main exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick)
-import Landscape exposing (grid)
+
+
+-- import Component
+
+import Components.Landscape exposing (grid)
 import Components.Piece exposing (renderPiece)
-import Models.Avatar exposing (..)
+
+
+-- import Model
+
+import Models.Avatar exposing (Piece)
 import Models.GameSet exposing (gameSet)
+import Models.Coordinate exposing (Coordinate)
+
+
+-- import Support
+
 import Debug exposing (..)
 
 
--- component import example
 -- APP
 
 
@@ -24,16 +36,29 @@ main =
 
 
 
--- MODEL: use this to hold the state
+-- MODEL
+
+
+type MaybePiece
+    = Piece
+    | NoPiece
 
 
 type alias Model =
-    {}
+    { selectedPiece : MaybePiece
+    , potentialMoves : List Coordinate
+    , potentialKills : List Coordinate
+    , pieces : List Piece
+    }
 
 
 model : Model
 model =
-    {}
+    { selectedPiece = NoPiece
+    , potentialMoves = []
+    , potentialKills = []
+    , pieces = gameSet
+    }
 
 
 
@@ -63,11 +88,19 @@ update msg model =
             model
 
 
+
+-- VIEW:
+
+
 view : Model -> Html Msg
 view model =
-    div [ class "m4 relative" ]
-        [ div [ class "chess-board absolute" ]
-            grid
-        , div [ class "chess-pieces" ]
-            (List.map renderPiece gameSet)
-        ]
+    let
+        { pieces } =
+            model
+    in
+        div [ class "m4 relative" ]
+            [ div [ class "chess-board absolute" ]
+                grid
+            , div [ class "chess-pieces" ]
+                (List.map renderPiece pieces)
+            ]

@@ -1,4 +1,4 @@
-module Landscape exposing (grid)
+module Components.Landscape exposing (grid)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
