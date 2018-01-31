@@ -4,10 +4,10 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick)
 import Landscape exposing (grid)
-import Debug exposing (..)
+import Components.Piece exposing (renderPiece)
 import Models.Avatar exposing (..)
-import Models.GameSet exposing (..)
-import Json.Encode exposing (string)
+import Models.GameSet exposing (gameSet)
+import Debug exposing (..)
 
 
 -- component import example
@@ -24,72 +24,50 @@ main =
 
 
 
--- MODEL
+-- MODEL: use this to hold the state
 
 
 type alias Model =
-    Int
+    {}
 
 
 model : Model
 model =
-    0
+    {}
 
 
 
--- UPDATE
+-- UPDATE: make moves
 
 
 type Msg
-    = NoOp
-    | Increment
+    = SelectPiece
+    | MovePiece
+    | OtherSelectPiece
+    | OtherMovePiece
 
 
 update : Msg -> Model -> Model
 update msg model =
     case msg of
-        NoOp ->
+        SelectPiece ->
             model
 
-        Increment ->
-            model + 1
+        MovePiece ->
+            model
+
+        OtherSelectPiece ->
+            model
+
+        OtherMovePiece ->
+            model
 
 
 view : Model -> Html Msg
 view model =
     div [ class "m4 relative" ]
-        [ div
-            [ class "chess-board absolute" ]
+        [ div [ class "chess-board absolute" ]
             grid
-        , div
-            [ class "chess-pieces" ]
+        , div [ class "chess-pieces" ]
             (List.map renderPiece gameSet)
-        ]
-
-
-getPixels n =
-    (toString n) ++ "px"
-
-
-renderPiece : Piece -> Html Msg
-renderPiece piece =
-    div
-        [ class "chesspiece absolute"
-        , style
-            [ ( "left", getPixels <| piece.x * 100 )
-            , ( "top", getPixels <| piece.y * 100 )
-            ]
-        ]
-        [ span
-            [ property "innerHTML"
-                (string
-                    (String.join ""
-                        [ "&#"
-                        , getPieceIcon piece.avatar.name piece.avatar.faction
-                        , ";"
-                        ]
-                    )
-                )
-            ]
-            []
         ]

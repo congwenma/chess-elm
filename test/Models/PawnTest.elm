@@ -13,10 +13,10 @@ tests =
             [ test "return only forward blocks" <|
                 \() ->
                     Expect.equal
-                        (getMovePotential (Coordinate 1 1)
+                        (getMovePotential (Coordinate 0 1)
                             |> List.map Models.Coordinate.intoString
                             |> String.join " | "
                         )
-                        "(1, 1)"
+                        "(0, 2) | (0, 3)"
             ]
         ]

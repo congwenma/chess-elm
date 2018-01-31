@@ -14,8 +14,8 @@ gameSet =
 
 gameSetConfig : List { faction : FactionType, name : AvatarType, x : Int, y : Int }
 gameSetConfig =
-    [ -- PLAYER 1, row 1
-      { name = Castle, faction = BlackPlayer, x = 0, y = 0 }
+    -- PLAYER 1, row 1
+    [ { name = Castle, faction = BlackPlayer, x = 0, y = 0 }
     , { name = Knight, faction = BlackPlayer, x = 1, y = 0 }
     , { name = Bishop, faction = BlackPlayer, x = 2, y = 0 }
     , { name = King, faction = BlackPlayer, x = 3, y = 0 }
