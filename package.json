@@ -9,7 +9,8 @@
     "url": "https://github.com/moarwick/elm-webpack-starter"
   },
   "scripts": {
-    "test": "elm-test",
+    "test:once": "elm-test",
+    "test": "find src test | entr elm-test",
     "start": "webpack-dev-server --hot --inline",
     "prebuild": "rimraf dist",
     "build": "webpack",

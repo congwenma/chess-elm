@@ -10,7 +10,6 @@ allTests =
     describe "Avatar"
         [ sanityTest
         , avatarTests
-        , gameSetTests
         ]
 
 
@@ -26,13 +25,6 @@ avatarTests =
         , test "getName" <|
             \() ->
                 Expect.equal (getName blackKnight) "Black Knight"
-        ]
-
-
-gameSetTests =
-    describe "gameSet"
-        [ test "contains 32 pieces" <|
-            \() -> Expect.equal (List.length gameSet) 32
         ]
 
 
