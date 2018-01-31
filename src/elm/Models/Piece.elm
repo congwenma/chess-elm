@@ -1,14 +1,14 @@
 module Models.Piece exposing (Piece, getPieceIcon)
 
 import Models.Avatar exposing (Avatar, AvatarType, FactionType(..))
+import Models.Coordinate exposing (..)
 import Utils exposing (getFromMaybe)
 import Dict
 
 
 type alias Piece =
     { avatar : Avatar
-    , x : Int
-    , y : Int
+    , coordinate : Coordinate
     }
 
 

@@ -1,5 +1,6 @@
 module Models.GameSet exposing (..)
 
+import Models.Coordinate exposing (Coordinate)
 import Models.Avatar
     exposing
         ( Avatar
@@ -9,13 +10,13 @@ import Models.Avatar
 import Models.Piece exposing (Piece)
 
 
-createAvatar { name, faction, x, y } =
-    Piece (Avatar name faction) x y
+createPiece { name, faction, x, y } =
+    Piece (Avatar name faction) (Coordinate x y)
 
 
 gameSet : List Piece
 gameSet =
-    List.map createAvatar gameSetConfig
+    List.map createPiece gameSetConfig
 
 
 gameSetConfig : List { faction : FactionType, name : AvatarType, x : Int, y : Int }

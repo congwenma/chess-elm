@@ -1,13 +1,13 @@
-module Knight exposing (..)
+module Models.Knight exposing (..)
 
-import Models.Avatar
-
-
--- faction true = black
+import Models.Coordinate exposing (..)
 
 
-type alias Knight a =
-    { a
-        | name : String
-        , faction : Bool
-    }
+getMovePotential : Coordinate -> List Coordinate
+getMovePotential coord =
+    [ coord ]
+
+
+getKillPotential : Coordinate -> List Coordinate
+getKillPotential coord =
+    [ coord ]
