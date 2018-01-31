@@ -13,7 +13,7 @@ import Components.Piece exposing (renderPiece)
 
 -- import Model
 
-import Models.Avatar exposing (Piece)
+import Models.Piece exposing (Piece)
 import Models.GameSet exposing (gameSet)
 import Models.Coordinate exposing (Coordinate)
 

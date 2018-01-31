@@ -1,6 +1,12 @@
 module Models.GameSet exposing (..)
 
-import Models.Avatar exposing (..)
+import Models.Avatar
+    exposing
+        ( Avatar
+        , FactionType(..)
+        , AvatarType(..)
+        )
+import Models.Piece exposing (Piece)
 
 
 createAvatar { name, faction, x, y } =

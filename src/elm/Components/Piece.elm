@@ -1,6 +1,6 @@
 module Components.Piece exposing (..)
 
-import Models.Avatar exposing (Piece, getPieceIcon)
+import Models.Piece exposing (Piece, getPieceIcon)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick)
