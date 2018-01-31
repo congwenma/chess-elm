@@ -1,5 +1,10 @@
 module Models.Coordinate exposing (..)
 
 
-type alias Coord =
+type alias Coordinate =
     { x : Int, y : Int }
+
+
+intoString : Coordinate -> String
+intoString { x, y } =
+    "(" ++ (toString x) ++ ", " ++ (toString y) ++ ")"
