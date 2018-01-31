@@ -13,7 +13,7 @@ $CELL_WIDTH: $BOARD_WIDTH / 8;
   background: green;
   > .chess-row {
     > .chess-cell {
-      &.black { background: #555 }
+      &.black { background: #888 }
       border: 1px solid black;
       background: white;
       height: $CELL_WIDTH;
@@ -23,7 +23,10 @@ $CELL_WIDTH: $BOARD_WIDTH / 8;
 }
 
 .chesspiece  {
-  font-size: $CELL_WIDTH / 2;
-  width: $CELL_WIDTH;
-  height: $CELL_WIDTH;
+  font-size: $CELL_WIDTH / 1.5;
+  margin-left: 18px;
+  &.selected {
+    font-weight: 800;
+    color: white;
+  }
 }
