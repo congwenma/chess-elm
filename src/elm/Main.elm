@@ -6,6 +6,7 @@ import Html.Events exposing (onClick)
 import Landscape exposing (grid)
 import Debug exposing (..)
 import Models.Avatar exposing (..)
+import Models.GameSet exposing (..)
 import Json.Encode exposing (string)
 
 
