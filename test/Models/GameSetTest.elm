@@ -5,6 +5,8 @@ import Expect
 import Models.GameSet exposing (..)
 import Models.Avatar exposing (AvatarType(..))
 import Models.Piece exposing (Piece)
+import ChessUtils exposing (..)
+import Debug exposing (log)
 
 
 allTests : Test
@@ -19,32 +21,13 @@ gameSetTests =
             \() -> Expect.equal (List.length gameSet) 32
         , test "contains expected count of pieces by AvatarType" <|
             \() ->
-                Expect.equal
+                Expect.equalLists
                     (countPiecesByAvatar gameSet)
-                    [ ( Castle, 4 )
-                    , ( Knight, 4 )
-                    , ( Bishop, 4 )
-                    , ( King, 2 )
-                    , ( Queen, 2 )
-                    , ( Pawn, 16 )
+                    [ ( "Bishop", 4 )
+                    , ( "Castle", 4 )
+                    , ( "King", 2 )
+                    , ( "Knight", 4 )
+                    , ( "Pawn", 16 )
+                    , ( "Queen", 2 )
                     ]
         ]
-
-
-countPiecesByAvatar : List Piece -> List ( AvatarType, Int )
-countPiecesByAvatar pieces =
-    List.foldl
-        (\accu piece ->
-            let
-                avatarType =
-                    piece.avatar.name
-            in
-                case accu.member (avatarType) of
-                    True ->
-                        accu
-
-                    False ->
-                        accu
-        )
-        Dict.empty
-        pieces

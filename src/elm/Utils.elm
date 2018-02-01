@@ -9,3 +9,14 @@ getFromMaybe promise =
 
         Nothing ->
             ""
+
+
+incrementFromMaybe : Maybe Int -> Maybe Int
+incrementFromMaybe maybeNum =
+    case maybeNum of
+        Just num ->
+            Just (num + 1)
+
+        Nothing ->
+            -- if this return Nothing, this key is deleted
+            Just 1

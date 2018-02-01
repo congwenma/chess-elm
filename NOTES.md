@@ -12,3 +12,8 @@ elm-app start
   1.4 [-] setup moves
   1.5 [-] create model's move options
 2. AI.
+
+
+
+# Elm playground
+https://ellie-app.com/j4rq5y9ZPa1/0
