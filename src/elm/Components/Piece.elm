@@ -3,7 +3,6 @@ module Components.Piece exposing (..)
 import Models.Piece exposing (Piece, getPieceIcon)
 import Html exposing (..)
 import Html.Attributes exposing (..)
-import Html.Events exposing (onClick)
 import Json.Encode exposing (string)
 
 
@@ -11,25 +10,28 @@ getPixels n =
     (toString n) ++ "px"
 
 
+escapeAsciiCode : String -> Json.Encode.Value
+escapeAsciiCode str =
+    (string
+        (String.join ""
+            [ "&#", str, ";" ]
+        )
+    )
+
+
 renderPiece : Piece -> Html msg
 renderPiece piece =
     div
         [ class "chesspiece absolute"
         , style
-            [ ( "left", getPixels <| piece.x * 100 )
-            , ( "top", getPixels <| piece.y * 100 )
+            [ ( "left", getPixels <| piece.coordinate.x * 100 )
+            , ( "top", getPixels <| piece.coordinate.y * 100 )
             ]
         ]
         [ span
-            [ property "innerHTML"
-                (string
-                    (String.join ""
-                        [ "&#"
-                        , getPieceIcon piece.avatar.name piece.avatar.faction
-                        , ";"
-                        ]
-                    )
-                )
+            [ property "innerHTML" <|
+                escapeAsciiCode <|
+                    getPieceIcon piece.avatar.name piece.avatar.faction
             ]
             []
         ]
