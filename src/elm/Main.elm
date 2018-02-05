@@ -7,7 +7,7 @@ import Html.Events exposing (onClick)
 
 -- import Component
 
-import Components.Landscape exposing (grid)
+import Components.Landscape exposing (renderGrid)
 import Components.Piece exposing (renderPiece)
 
 
@@ -16,6 +16,7 @@ import Components.Piece exposing (renderPiece)
 import Models.Piece exposing (Piece)
 import Models.GameSet exposing (gameSet)
 import Models.Coordinate exposing (Coordinate)
+import Models.MoveForPiece exposing (..)
 
 
 -- import Events
@@ -68,8 +69,11 @@ model =
 update : Msg -> Model -> Model
 update msg model =
     case msg of
-        SelectPiece maybePiece ->
-            { model | selectedPiece = Just maybePiece }
+        SelectPiece piece ->
+            { model
+                | selectedPiece = Just piece
+                , potentialMoves = getMoveForAnyPiece piece
+            }
 
         MovePiece coordinate ->
             let
@@ -92,12 +96,12 @@ update msg model =
 view : Model -> Html Msg
 view model =
     let
-        { pieces } =
+        { pieces, potentialMoves, potentialKills, selectedPiece } =
             model
     in
         div [ class "m4 relative" ]
             [ div [ class "chess-board absolute" ]
-                grid
+                (renderGrid potentialMoves potentialKills)
             , div [ class "chess-pieces" ]
-                (List.map (renderPiece model.selectedPiece) pieces)
+                (List.map (renderPiece selectedPiece) pieces)
             ]

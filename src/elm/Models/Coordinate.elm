@@ -8,3 +8,8 @@ type alias Coordinate =
 intoString : Coordinate -> String
 intoString { x, y } =
     "(" ++ (toString x) ++ ", " ++ (toString y) ++ ")"
+
+
+intoStringXY : Int -> Int -> String
+intoStringXY x y =
+    "(" ++ (toString x) ++ ", " ++ (toString y) ++ ")"

@@ -1,22 +1,36 @@
 module Models.Pawn exposing (..)
 
 import Models.Coordinate exposing (..)
+import Models.Piece exposing (Piece)
+import Models.Avatar exposing (FactionType(..))
 
 
 -- TODO: and later should consider the board
 
 
-getMovePotential : Coordinate -> List Coordinate
-getMovePotential coord =
+getMovePotential : Piece -> List Coordinate
+getMovePotential { coordinate, avatar } =
     let
         { x, y } =
-            coord
+            coordinate
+
+        { faction } =
+            avatar
     in
-        if y == 1 then
-            -- and black
-            [ Coordinate x (y + 1), Coordinate x (y + 2) ]
-        else
-            [ Coordinate x (y + 1) ]
+        case faction of
+            BlackPlayer ->
+                if y == 1 then
+                    -- and black
+                    [ Coordinate x (y + 1), Coordinate x (y + 2) ]
+                else
+                    [ Coordinate x (y + 1) ]
+
+            WhitePlayer ->
+                if y == 6 then
+                    -- and black
+                    [ Coordinate x (y - 1), Coordinate x (y - 2) ]
+                else
+                    [ Coordinate x (y - 1) ]
 
 
 getKillPotential : Coordinate -> List Coordinate
