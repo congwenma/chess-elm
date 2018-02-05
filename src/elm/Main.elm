@@ -73,6 +73,7 @@ update msg model =
             { model
                 | selectedPiece = Just piece
                 , potentialMoves = getMoveForAnyPiece piece
+                , potentialKills = getKillForAnyPiece piece
             }
 
         MovePiece coordinate ->

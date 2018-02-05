@@ -33,6 +33,18 @@ getMovePotential { coordinate, avatar } =
                     [ Coordinate x (y - 1) ]
 
 
-getKillPotential : Coordinate -> List Coordinate
-getKillPotential coord =
-    [ coord ]
+getKillPotential : Piece -> List Coordinate
+getKillPotential { coordinate, avatar } =
+    let
+        { x, y } =
+            coordinate
+
+        { faction } =
+            avatar
+    in
+        case faction of
+            BlackPlayer ->
+                [ Coordinate (x + 1) (y + 1), Coordinate (x - 1) (y + 1) ]
+
+            WhitePlayer ->
+                [ Coordinate (x + 1) (y - 1), Coordinate (x - 1) (y - 1) ]

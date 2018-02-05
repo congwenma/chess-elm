@@ -12,6 +12,7 @@ $CELL_WIDTH: $BOARD_WIDTH / 8;
 $SELECTED_COLOR: #aad;
 $HOVERED_COLOR: #ada;
 $POTENTIAL_MOVE_COLOR: #dad;
+$POTENTIAL_KILL_COLOR: #daa;
 
 .chess-board {
   width: $BOARD_WIDTH;
@@ -25,6 +26,9 @@ $POTENTIAL_MOVE_COLOR: #dad;
       width: $CELL_WIDTH;
       &.potentialMove {
         background: $POTENTIAL_MOVE_COLOR;
+      }
+      &.potentialKill {
+        background: $POTENTIAL_KILL_COLOR;
       }
     }
   }
