@@ -32,25 +32,16 @@ renderGrid potentialMoves potentialKills =
                 (List.map
                     (\colNum ->
                         let
-                            moveClassName =
-                                case List.member (Coordinate colNum rowNum) potentialMoves of
-                                    True ->
-                                        " potentialMove"
-
-                                    False ->
-                                        ""
-
-                            killClassName =
-                                case List.member (Coordinate colNum rowNum) potentialKills of
-                                    True ->
-                                        " potentialKill"
-
-                                    False ->
-                                        ""
+                            coordinate =
+                                Coordinate colNum rowNum
                         in
                             div
-                                [ class
-                                    ("chess-cell " ++ determineCellColor (colNum + rowNum) ++ moveClassName ++ killClassName)
+                                [ classList
+                                    [ ( "chess-cell", True )
+                                    , ( determineCellColor (colNum + rowNum), True )
+                                    , ( "potentialMove", List.member (coordinate) potentialMoves )
+                                    , ( "potentialKill", List.member (coordinate) potentialKills )
+                                    ]
                                 ]
                                 [ span [ class "h2" ] [ text <| intoStringXY colNum rowNum ]
                                 ]
