@@ -18,6 +18,11 @@ import Models.GameSet exposing (gameSet)
 import Models.Coordinate exposing (Coordinate)
 
 
+-- import Events
+
+import Msg exposing (..)
+
+
 -- import Support
 
 import Debug exposing (..)
@@ -39,13 +44,8 @@ main =
 -- MODEL
 
 
-type MaybePiece
-    = Piece
-    | NoPiece
-
-
 type alias Model =
-    { selectedPiece : MaybePiece
+    { selectedPiece : Maybe Piece
     , potentialMoves : List Coordinate
     , potentialKills : List Coordinate
     , pieces : List Piece
@@ -54,7 +54,7 @@ type alias Model =
 
 model : Model
 model =
-    { selectedPiece = NoPiece
+    { selectedPiece = Nothing
     , potentialMoves = []
     , potentialKills = []
     , pieces = gameSet
@@ -65,21 +65,18 @@ model =
 -- UPDATE: make moves
 
 
-type Msg
-    = SelectPiece
-    | MovePiece
-    | OtherSelectPiece
-    | OtherMovePiece
-
-
 update : Msg -> Model -> Model
 update msg model =
     case msg of
-        SelectPiece ->
-            model
+        SelectPiece maybePiece ->
+            { model | selectedPiece = Just maybePiece }
 
-        MovePiece ->
-            model
+        MovePiece coordinate ->
+            let
+                afterMovePieces =
+                    model.pieces
+            in
+                { model | pieces = afterMovePieces }
 
         OtherSelectPiece ->
             model
@@ -102,5 +99,5 @@ view model =
             [ div [ class "chess-board absolute" ]
                 grid
             , div [ class "chess-pieces" ]
-                (List.map renderPiece pieces)
+                (List.map (renderPiece model.selectedPiece) pieces)
             ]

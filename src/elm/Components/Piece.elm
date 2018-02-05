@@ -1,11 +1,14 @@
 module Components.Piece exposing (..)
 
+import Msg exposing (..)
 import Models.Piece exposing (Piece, getPieceIcon)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Json.Encode exposing (string)
+import Html.Events exposing (..)
 
 
+getPixels : Int -> String
 getPixels n =
     (toString n) ++ "px"
 
@@ -19,19 +22,32 @@ escapeAsciiCode str =
     )
 
 
-renderPiece : Piece -> Html msg
-renderPiece piece =
-    div
-        [ class "chesspiece absolute"
-        , style
-            [ ( "left", getPixels <| piece.coordinate.x * 100 )
-            , ( "top", getPixels <| piece.coordinate.y * 100 )
+renderPiece : Maybe Piece -> Piece -> Html Msg
+renderPiece selectedPiece piece =
+    let
+        additionalClass =
+            case selectedPiece of
+                Nothing ->
+                    ""
+
+                Just selected ->
+                    if piece == selected then
+                        "selected"
+                    else
+                        ""
+    in
+        div
+            [ class ("chesspiece absolute user-select-none " ++ additionalClass)
+            , style
+                [ ( "left", getPixels <| piece.coordinate.x * 100 )
+                , ( "top", getPixels <| piece.coordinate.y * 100 )
+                ]
+            , onClick (SelectPiece piece)
             ]
-        ]
-        [ span
-            [ property "innerHTML" <|
-                escapeAsciiCode <|
-                    getPieceIcon piece.avatar.name piece.avatar.faction
+            [ span
+                [ property "innerHTML" <|
+                    escapeAsciiCode <|
+                        getPieceIcon piece.avatar.name piece.avatar.faction
+                ]
+                []
             ]
-            []
-        ]

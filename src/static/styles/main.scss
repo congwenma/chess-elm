@@ -4,9 +4,14 @@ $icon-font-path: '~bootstrap-sass/assets/fonts/bootstrap/';
 @import '~basscss/css/basscss-important.css';
 @import '~flexboxgrid/css/flexboxgrid.css';
 // can add Boostrap overrides, additional Sass/CSS below...
+@import './util.scss';
 
 $BOARD_WIDTH: 800px;
 $CELL_WIDTH: $BOARD_WIDTH / 8;
+
+$SELECTED_COLOR: #aad;
+$HOVERED_COLOR: #ada;
+
 
 .chess-board {
   width: $BOARD_WIDTH;
@@ -25,8 +30,12 @@ $CELL_WIDTH: $BOARD_WIDTH / 8;
 .chesspiece  {
   font-size: $CELL_WIDTH / 1.5;
   margin-left: 18px;
+  font-weight: 400;
   &.selected {
-    font-weight: 800;
     color: white;
+    background: $SELECTED_COLOR;
+  }
+  &:hover {
+    background: $HOVERED_COLOR;
   }
 }
