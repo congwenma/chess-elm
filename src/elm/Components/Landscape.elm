@@ -2,6 +2,8 @@ module Components.Landscape exposing (renderGrid)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
+import Html.Events exposing (onClick)
+import Msg exposing (..)
 import Models.Coordinate exposing (Coordinate, intoStringXY, intoString)
 
 
@@ -24,7 +26,7 @@ determineCellColor n =
             "white"
 
 
-renderGrid : List Coordinate -> List Coordinate -> List (Html msg)
+renderGrid : List Coordinate -> List Coordinate -> List (Html Msg)
 renderGrid potentialMoves potentialKills =
     List.map
         (\rowNum ->
@@ -42,8 +44,11 @@ renderGrid potentialMoves potentialKills =
                                     , ( "potentialMove", List.member (coordinate) potentialMoves )
                                     , ( "potentialKill", List.member (coordinate) potentialKills )
                                     ]
+                                , onClick (MovePiece coordinate)
                                 ]
-                                [ span [ class "h2" ] [ text <| intoStringXY colNum rowNum ]
+                                [ span [ class "h2" ]
+                                    [ text <| intoStringXY colNum rowNum
+                                    ]
                                 ]
                     )
                     (expand gridDimension.x)

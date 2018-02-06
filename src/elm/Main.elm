@@ -27,6 +27,7 @@ import Msg exposing (..)
 -- import Support
 
 import Debug exposing (..)
+import Utils exposing (getFromMaybe)
 
 
 -- APP
@@ -78,8 +79,33 @@ update msg model =
 
         MovePiece coordinate ->
             let
+                selectedPieceAfterMove =
+                    case List.member coordinate model.potentialMoves of
+                        True ->
+                            case model.selectedPiece of
+                                Just selectedPiece ->
+                                    Just { selectedPiece | coordinate = coordinate }
+
+                                Nothing ->
+                                    Nothing
+
+                        False ->
+                            model.selectedPiece
+
                 afterMovePieces =
-                    model.pieces
+                    case selectedPieceAfterMove of
+                        Just selectedPiece ->
+                            model.pieces
+                                |> List.indexedMap
+                                    (\index piece ->
+                                        if piece == selectedPiece then
+                                            selectedPiece
+                                        else
+                                            piece
+                                    )
+
+                        Nothing ->
+                            model.pieces
             in
                 { model | pieces = afterMovePieces }
 
