@@ -79,18 +79,22 @@ update msg model =
 
         MovePiece coordinate ->
             let
+                info =
+                    Debug.log "MOVING PIECE" (toString coordinate)
+
                 selectedPieceAfterMove =
-                    case List.member coordinate model.potentialMoves of
-                        True ->
-                            case model.selectedPiece of
-                                Just selectedPiece ->
-                                    Just { selectedPiece | coordinate = coordinate }
+                    Debug.log "SELECT PIECE AFTER MOVE" <|
+                        case List.member coordinate model.potentialMoves of
+                            True ->
+                                case model.selectedPiece of
+                                    Just selectedPiece ->
+                                        Debug.log "SELECT PIECE" <| Just { selectedPiece | coordinate = coordinate }
 
-                                Nothing ->
-                                    Nothing
+                                    Nothing ->
+                                        Nothing
 
-                        False ->
-                            model.selectedPiece
+                            False ->
+                                model.selectedPiece
 
                 afterMovePieces =
                     case selectedPieceAfterMove of
@@ -98,10 +102,14 @@ update msg model =
                             model.pieces
                                 |> List.indexedMap
                                     (\index piece ->
-                                        if piece == selectedPiece then
-                                            selectedPiece
-                                        else
-                                            piece
+                                        let
+                                            info =
+                                                Debug.log "INDEXED MAP" ( piece, selectedPiece )
+                                        in
+                                            if piece.id == selectedPiece.id then
+                                                selectedPiece
+                                            else
+                                                piece
                                     )
 
                         Nothing ->

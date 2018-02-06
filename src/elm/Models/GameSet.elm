@@ -10,13 +10,13 @@ import Models.Avatar
 import Models.Piece exposing (Piece)
 
 
-createPiece { name, faction, x, y } =
-    Piece (Avatar name faction) (Coordinate x y)
+createPiece { name, faction, x, y } index =
+    Piece (Avatar name faction) (Coordinate x y) index
 
 
 gameSet : List Piece
 gameSet =
-    List.map createPiece gameSetConfig
+    List.indexedMap (\index obj -> createPiece obj index) gameSetConfig
 
 
 gameSetConfig : List { faction : FactionType, name : AvatarType, x : Int, y : Int }

@@ -9,6 +9,7 @@ import Dict
 type alias Piece =
     { avatar : Avatar
     , coordinate : Coordinate
+    , id : Int
     }
 
 
