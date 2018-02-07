@@ -79,49 +79,52 @@ update msg model =
 
         MovePiece coordinate ->
             let
-                info =
-                    Debug.log "MOVING PIECE" (toString coordinate)
+                -- info = Debug.log "MOVING PIECE" (toString coordinate)
+                coordinateIsPotentialMove =
+                    List.member coordinate model.potentialMoves
 
                 selectedPieceAfterMove =
-                    Debug.log "SELECT PIECE AFTER MOVE" <|
-                        case List.member coordinate model.potentialMoves of
-                            True ->
-                                case model.selectedPiece of
-                                    Just selectedPiece ->
-                                        Debug.log "SELECT PIECE" <| Just { selectedPiece | coordinate = coordinate }
-
-                                    Nothing ->
-                                        Nothing
-
-                            False ->
+                    -- Debug.log "SELECT PIECE AFTER MOVE" <|
+                    case model.selectedPiece of
+                        Just selectedPiece ->
+                            -- Debug.log "SELECT PIECE" <|
+                            if coordinateIsPotentialMove then
+                                Just { selectedPiece | coordinate = coordinate }
+                            else
                                 model.selectedPiece
+
+                        Nothing ->
+                            Nothing
 
                 afterMovePieces =
                     case selectedPieceAfterMove of
                         Just selectedPiece ->
-                            model.pieces
-                                |> List.indexedMap
-                                    (\index piece ->
-                                        let
-                                            info =
-                                                Debug.log "INDEXED MAP" ( piece, selectedPiece )
-                                        in
-                                            if piece.id == selectedPiece.id then
-                                                selectedPiece
-                                            else
-                                                piece
-                                    )
+                            replacePieceInPieces selectedPiece model.pieces
 
                         Nothing ->
                             model.pieces
             in
-                { model | pieces = afterMovePieces }
+                { model | pieces = afterMovePieces, selectedPiece = Nothing, potentialMoves = [], potentialKills = [] }
 
         OtherSelectPiece ->
             model
 
         OtherMovePiece ->
             model
+
+
+replacePieceInPieces : Piece -> List Piece -> List Piece
+replacePieceInPieces selected allPieces =
+    allPieces
+        |> List.indexedMap
+            (\index pce ->
+                -- let info = Debug.log "INDEXED MAP" <| ( piece, selectedPiece )
+                -- in
+                if pce.id == selected.id then
+                    selected
+                else
+                    pce
+            )
 
 
 
