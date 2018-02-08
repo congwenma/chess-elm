@@ -35,6 +35,14 @@ renderPiece selectedPiece piece =
                         "selected"
                     else
                         ""
+
+        clickHandler =
+            case selectedPiece of
+                Just sPiece ->
+                    KillPiece piece
+
+                Nothing ->
+                    SelectPiece piece
     in
         div
             [ class ("chesspiece absolute user-select-none " ++ additionalClass)
@@ -42,7 +50,7 @@ renderPiece selectedPiece piece =
                 [ ( "left", getPixels <| piece.coordinate.x * 100 )
                 , ( "top", getPixels <| piece.coordinate.y * 100 )
                 ]
-            , onClick (SelectPiece piece)
+            , onClick clickHandler
             ]
             [ span
                 [ property "innerHTML" <|

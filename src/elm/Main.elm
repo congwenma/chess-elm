@@ -106,6 +106,34 @@ update msg model =
             in
                 { model | pieces = afterMovePieces, selectedPiece = Nothing, potentialMoves = [], potentialKills = [] }
 
+        KillPiece piece ->
+            let
+                coordinateIsPotentialKill =
+                    List.member piece.coordinate model.potentialKills
+
+                selectedPieceAfterKill =
+                    -- Debug.log "SELECT PIECE AFTER MOVE" <|
+                    case model.selectedPiece of
+                        Just selectedPiece ->
+                            -- Debug.log "SELECT PIECE" <|
+                            if coordinateIsPotentialKill then
+                                Just { selectedPiece | coordinate = piece.coordinate }
+                            else
+                                model.selectedPiece
+
+                        Nothing ->
+                            Nothing
+
+                afterMovePieces =
+                    case selectedPieceAfterKill of
+                        Just selectedPiece ->
+                            replacePieceInPieces selectedPiece model.pieces |> List.filter (\pce -> not (pce == piece))
+
+                        Nothing ->
+                            model.pieces
+            in
+                { model | pieces = afterMovePieces, selectedPiece = Nothing, potentialMoves = [], potentialKills = [] }
+
         OtherSelectPiece ->
             model
 
