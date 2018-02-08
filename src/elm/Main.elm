@@ -125,11 +125,16 @@ update msg model =
                             Nothing
 
                 afterMovePieces =
-                    case selectedPieceAfterKill of
-                        Just selectedPiece ->
-                            replacePieceInPieces selectedPiece model.pieces |> List.filter (\pce -> not (pce == piece))
+                    case coordinateIsPotentialKill of
+                        True ->
+                            case selectedPieceAfterKill of
+                                Just sPiece ->
+                                    replacePieceInPieces sPiece model.pieces |> List.filter (\pce -> not (pce == piece))
 
-                        Nothing ->
+                                Nothing ->
+                                    model.pieces
+
+                        False ->
                             model.pieces
             in
                 { model | pieces = afterMovePieces, selectedPiece = Nothing, potentialMoves = [], potentialKills = [] }
