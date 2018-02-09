@@ -8,8 +8,8 @@ import Models.Avatar exposing (FactionType(..))
 -- TODO: and later should consider the board
 
 
-getMovePotential : Piece -> List Coordinate
-getMovePotential { coordinate, avatar } =
+getMovePotential : Piece -> List Piece -> List Coordinate
+getMovePotential { coordinate, avatar } allPieces =
     let
         { x, y } =
             coordinate
@@ -19,22 +19,41 @@ getMovePotential { coordinate, avatar } =
     in
         case faction of
             BlackPlayer ->
-                if y == 1 then
-                    -- and black
-                    [ Coordinate x (y + 1), Coordinate x (y + 2) ]
-                else
-                    [ Coordinate x (y + 1) ]
+                let
+                    oneStep =
+                        Coordinate x (y + 1)
+
+                    twoStep =
+                        Coordinate x (y + 2)
+
+                    noPieceOnOneStep =
+                        List.all (\piece -> piece.coordinate /= oneStep) allPieces
+                in
+                    if y == 1 && noPieceOnOneStep then
+                        [ oneStep, twoStep ]
+                    else
+                        [ oneStep ]
 
             WhitePlayer ->
-                if y == 6 then
-                    -- and black
-                    [ Coordinate x (y - 1), Coordinate x (y - 2) ]
-                else
-                    [ Coordinate x (y - 1) ]
+                let
+                    oneStep =
+                        Coordinate x (y - 1)
+
+                    twoStep =
+                        Coordinate x (y - 2)
+
+                    noPieceOnOneStep =
+                        List.all (\piece -> piece.coordinate /= oneStep) allPieces
+                in
+                    if y == 6 && noPieceOnOneStep then
+                        -- and black
+                        [ oneStep, twoStep ]
+                    else
+                        [ oneStep ]
 
 
-getKillPotential : Piece -> List Coordinate
-getKillPotential { coordinate, avatar } =
+getKillPotential : Piece -> List Piece -> List Coordinate
+getKillPotential { coordinate, avatar } allPieces =
     let
         { x, y } =
             coordinate

@@ -6,8 +6,8 @@ import Models.Coordinate exposing (Coordinate)
 import Models.Pawn exposing (getMovePotential, getKillPotential)
 
 
-getMoveForAnyPiece : Piece -> List Coordinate
-getMoveForAnyPiece piece =
+getMoveForAnyPiece : Piece -> List Piece -> List Coordinate
+getMoveForAnyPiece piece allPieces =
     case piece.avatar.name of
         Knight ->
             []
@@ -25,11 +25,11 @@ getMoveForAnyPiece piece =
             []
 
         Pawn ->
-            getMovePotential piece
+            Models.Pawn.getMovePotential piece allPieces
 
 
-getKillForAnyPiece : Piece -> List Coordinate
-getKillForAnyPiece piece =
+getKillForAnyPiece : Piece -> List Piece -> List Coordinate
+getKillForAnyPiece piece allPieces =
     case piece.avatar.name of
         Knight ->
             []
@@ -47,4 +47,5 @@ getKillForAnyPiece piece =
             []
 
         Pawn ->
-            getKillPotential piece
+            -- dont need all pieces
+            Models.Pawn.getKillPotential piece allPieces
