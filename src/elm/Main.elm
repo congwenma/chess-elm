@@ -83,12 +83,15 @@ update msg model =
                 coordinateIsPotentialMove =
                     List.member coordinate model.potentialMoves
 
+                coordinateHasNoPiece =
+                    List.all (\piece -> not (piece.coordinate == coordinate)) model.pieces
+
                 selectedPieceAfterMove =
                     -- Debug.log "SELECT PIECE AFTER MOVE" <|
                     case model.selectedPiece of
                         Just selectedPiece ->
                             -- Debug.log "SELECT PIECE" <|
-                            if coordinateIsPotentialMove then
+                            if coordinateIsPotentialMove && coordinateHasNoPiece then
                                 Just { selectedPiece | coordinate = coordinate }
                             else
                                 model.selectedPiece
