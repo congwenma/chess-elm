@@ -43,8 +43,7 @@ getKillForAnyPiece piece allPieces =
             Models.Knight.getKillPotential piece allPieces
 
         Castle ->
-            -- Models.Castle.getKillPotential piece allPieces
-            []
+            Models.Castle.getKillPotential piece allPieces
 
         Bishop ->
             []

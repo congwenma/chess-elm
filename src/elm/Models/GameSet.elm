@@ -59,5 +59,6 @@ gameSetConfig =
     , { name = Pawn, faction = WhitePlayer, x = 4, y = 6 }
     , { name = Pawn, faction = WhitePlayer, x = 5, y = 6 }
     , { name = Pawn, faction = WhitePlayer, x = 6, y = 6 }
-    , { name = Pawn, faction = WhitePlayer, x = 7, y = 6 }
+
+    -- , { name = Pawn, faction = WhitePlayer, x = 7, y = 6 }
     ]

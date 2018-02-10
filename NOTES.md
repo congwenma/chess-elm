@@ -17,3 +17,8 @@ elm-app start
 
 # Elm playground
 https://ellie-app.com/j4rq5y9ZPa1/0
+
+
+# Takeaways
+
+1. Sometimes trying to reuse code in Elm takes a lot of effort, though when they are compiled they usually works.

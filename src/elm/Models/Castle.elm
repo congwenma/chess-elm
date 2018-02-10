@@ -11,12 +11,18 @@ flatten2D list =
     List.foldr (++) [] list
 
 
-lastInList : List a -> Maybe a
-lastInList list =
-    List.reverse list |> List.head
+lastInList : a -> List a -> Maybe a
+lastInList defaultCoord listCoords =
+    case List.head listCoords of
+        Just value ->
+            Just value
+
+        Nothing ->
+            Just defaultCoord
 
 
-applyToLast func maybeCoord =
+applyToMaybeCoord : (b -> a) -> Maybe b -> Maybe a
+applyToMaybeCoord func maybeCoord =
     case maybeCoord of
         Just coord ->
             Just (func coord)
@@ -25,36 +31,45 @@ applyToLast func maybeCoord =
             Nothing
 
 
-potentials : Coordinate -> List Piece -> List Coordinate
-potentials { x, y } allPieces =
+potentialKills : Coordinate -> List Piece -> List Coordinate
+potentialKills myCoord allPieces =
     let
+        { x, y } =
+            myCoord
+
         allCoordinatesWithPiece =
             List.map (\pce -> pce.coordinate) allPieces
     in
-        [ findPotentialLeft (x - 1) y allCoordinatesWithPiece []
-            |> lastInList
-            |> applyToLast (\coord -> Coordinate (coord.x - 1) coord.y)
-        , findPotentialRight (x + 1) y allCoordinatesWithPiece []
-            |> lastInList
-            |> applyToLast (\coord -> Coordinate (coord.x + 1) coord.y)
-        , findPotentialUp x (y - 1) allCoordinatesWithPiece []
-            |> lastInList
-            |> applyToLast (\coord -> Coordinate coord.x (coord.y - 1))
-        , findPotentialDown x (y + 1) allCoordinatesWithPiece []
-            |> lastInList
-            |> applyToLast (\coord -> Coordinate coord.x (coord.y + 1))
-        ]
-            |> List.filter (\maybeValue -> maybeValue /= Nothing)
-            |> List.map
-                (\maybeValue ->
+        Debug.log "********8Potential Kills" <|
+            List.foldl
+                (\maybeValue accu ->
                     case maybeValue of
                         Just value ->
-                            value
+                            value :: accu
+
+                        Nothing ->
+                            accu
                 )
+                []
+            <|
+                Debug.log "******1" <|
+                    [ findPotentialLeft (x - 1) y allCoordinatesWithPiece []
+                        |> lastInList myCoord
+                        |> applyToMaybeCoord (\coord -> Coordinate (coord.x - 1) coord.y)
+                    , findPotentialRight (x + 1) y allCoordinatesWithPiece []
+                        |> lastInList myCoord
+                        |> applyToMaybeCoord (\coord -> Coordinate (coord.x + 1) coord.y)
+                    , findPotentialUp x (y - 1) allCoordinatesWithPiece []
+                        |> lastInList myCoord
+                        |> applyToMaybeCoord (\coord -> Coordinate coord.x (coord.y - 1))
+                    , findPotentialDown x (y + 1) allCoordinatesWithPiece []
+                        |> lastInList myCoord
+                        |> applyToMaybeCoord (\coord -> Coordinate coord.x (coord.y + 1))
+                    ]
 
 
-potentialKills : Coordinate -> List Piece -> List Coordinate
-potentialKills { x, y } allPieces =
+potentials : Coordinate -> List Piece -> List Coordinate
+potentials { x, y } allPieces =
     let
         allCoordinatesWithPiece =
             List.map (\pce -> pce.coordinate) allPieces
@@ -108,11 +123,8 @@ findPotentialDown x y allCoordinatesWithPiece accu =
 
 findPotentialUp x y allCoordinatesWithPiece accu =
     let
-        info =
-            Debug.log "findPotentialUp" ( x, y )
-
         found =
-            Debug.log "findPotentialUp" <| List.any (\cwp -> cwp == Coordinate x y) allCoordinatesWithPiece
+            List.any (\cwp -> cwp == Coordinate x y) allCoordinatesWithPiece
     in
         case found || y < 0 of
             True ->
@@ -135,6 +147,6 @@ getKillPotential : Piece -> List Piece -> List Coordinate
 getKillPotential { coordinate, avatar } allPieces =
     List.filter
         (\coord ->
-            not <| areAnyPieceOnCoordinate allPieces coord
+            areAnyEnemiesOnCoordinate avatar allPieces coord
         )
-        (potentials coordinate allPieces)
+        (potentialKills coordinate allPieces)
