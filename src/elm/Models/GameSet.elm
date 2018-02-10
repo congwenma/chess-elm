@@ -7,11 +7,11 @@ import Models.Avatar
         , FactionType(..)
         , AvatarType(..)
         )
-import Models.Piece exposing (Piece)
+import Models.Piece exposing (Piece, PieceStatus(..))
 
 
 createPiece { name, faction, x, y } index =
-    Piece (Avatar name faction) (Coordinate x y) index
+    Piece (Avatar name faction) (Coordinate x y) index Alive
 
 
 gameSet : List Piece

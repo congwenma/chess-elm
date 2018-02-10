@@ -1,4 +1,4 @@
-module Models.Piece exposing (Piece, getPieceIcon)
+module Models.Piece exposing (Piece, getPieceIcon, PieceStatus(..))
 
 import Models.Avatar exposing (Avatar, AvatarType, FactionType(..))
 import Models.Coordinate exposing (..)
@@ -6,10 +6,16 @@ import Utils exposing (getFromMaybe)
 import Dict
 
 
+type PieceStatus
+    = Alive
+    | Dead
+
+
 type alias Piece =
     { avatar : Avatar
     , coordinate : Coordinate
     , id : Int
+    , status : PieceStatus
     }
 
 

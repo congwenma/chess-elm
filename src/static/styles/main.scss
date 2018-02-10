@@ -39,13 +39,17 @@ $PREVIOUSLY_MOVED_COLOR: #fbf;
   font-size: $CELL_WIDTH / 1.5;
   margin-left: 18px;
   font-weight: 400;
+  transition: all 0.8s ease 0s;
+
   &.selected {
     color: white;
     background: $SELECTED_COLOR;
   }
   &.previousMoved {
-    transition: all 0.8s ease 0s;
     background: $PREVIOUSLY_MOVED_COLOR;
+  }
+  &.dead {
+    display: none;
   }
   &:hover {
     background: $HOVERED_COLOR;

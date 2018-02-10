@@ -13,7 +13,7 @@ import Components.Piece exposing (renderPiece)
 
 -- import Model
 
-import Models.Piece exposing (Piece)
+import Models.Piece exposing (Piece, PieceStatus(..))
 import Models.GameSet exposing (gameSet)
 import Models.Coordinate exposing (Coordinate)
 import Models.MoveForPiece exposing (..)
@@ -48,10 +48,15 @@ main =
 
 type alias Model =
     { selectedPiece : Maybe Piece
+
+    -- status
     , potentialMoves : List Coordinate
     , potentialKills : List Coordinate
-    , pieces : List Piece
     , previousMovedPiece : Maybe Piece
+
+    -- all Pieces
+    , pieces : List Piece
+    , alivePieces : List Piece
     }
 
 
@@ -60,8 +65,9 @@ model =
     { selectedPiece = Nothing
     , potentialMoves = []
     , potentialKills = []
-    , pieces = gameSet
     , previousMovedPiece = Nothing
+    , pieces = gameSet
+    , alivePieces = gameSet
     }
 
 
@@ -79,12 +85,12 @@ update msg model =
                     Debug.log
                         "potentialMoves"
                     <|
-                        getMoveForAnyPiece piece model.pieces
+                        getMoveForAnyPiece piece model.alivePieces
                 , potentialKills =
                     Debug.log
                         "potentialKills"
                     <|
-                        getKillForAnyPiece piece model.pieces
+                        getKillForAnyPiece piece model.alivePieces
             }
 
         MovePiece coordinate ->
@@ -94,7 +100,7 @@ update msg model =
                     List.member coordinate model.potentialMoves
 
                 coordinateHasNoPiece =
-                    List.all (\piece -> not (piece.coordinate == coordinate)) model.pieces
+                    List.all (\piece -> not (piece.coordinate == coordinate)) model.alivePieces
 
                 selectedPieceAfterMove =
                     -- Debug.log "SELECT PIECE AFTER MOVE" <|
@@ -148,7 +154,14 @@ update msg model =
                         True ->
                             case selectedPieceAfterKill of
                                 Just sPiece ->
-                                    replacePieceInPieces sPiece model.pieces |> List.filter (\pce -> not (pce == piece))
+                                    replacePieceInPieces sPiece model.pieces
+                                        |> List.map
+                                            (\pce ->
+                                                if pce == piece then
+                                                    { pce | status = Dead }
+                                                else
+                                                    pce
+                                            )
 
                                 Nothing ->
                                     model.pieces
@@ -162,6 +175,7 @@ update msg model =
                     , potentialMoves = []
                     , potentialKills = []
                     , previousMovedPiece = selectedPieceAfterKill
+                    , alivePieces = List.filter (\pce -> pce.status == Alive) afterMovePieces
                 }
 
         OtherSelectPiece ->
@@ -176,8 +190,6 @@ replacePieceInPieces selected allPieces =
     allPieces
         |> List.indexedMap
             (\index pce ->
-                -- let info = Debug.log "INDEXED MAP" <| ( piece, selectedPiece )
-                -- in
                 if pce.id == selected.id then
                     selected
                 else

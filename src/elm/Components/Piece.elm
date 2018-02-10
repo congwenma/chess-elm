@@ -45,6 +45,7 @@ renderPiece selectedPiece previousMovedPiece piece =
                             "previousMoved"
                         else
                             ""
+                , String.toLower <| toString piece.status
                 ]
 
         clickHandler =
