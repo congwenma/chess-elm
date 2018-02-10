@@ -5,7 +5,7 @@ import Models.Piece exposing (Piece)
 import Models.Avatar exposing (FactionType(..))
 
 
--- TODO: and later should consider the board
+-- TODO: promotion
 
 
 getMovePotential : Piece -> List Piece -> List Coordinate

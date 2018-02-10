@@ -3,14 +3,20 @@ module Models.MoveForPiece exposing (..)
 import Models.Avatar exposing (..)
 import Models.Piece exposing (Piece)
 import Models.Coordinate exposing (Coordinate)
+
+
+-- Importing Avatars
+
 import Models.Pawn exposing (getMovePotential, getKillPotential)
+import Models.Knight exposing (getMovePotential, getKillPotential)
+import Models.King exposing (getMovePotential, getKillPotential)
 
 
 getMoveForAnyPiece : Piece -> List Piece -> List Coordinate
 getMoveForAnyPiece piece allPieces =
     case piece.avatar.name of
         Knight ->
-            []
+            Models.Knight.getKillPotential piece allPieces
 
         Castle ->
             []
@@ -19,7 +25,7 @@ getMoveForAnyPiece piece allPieces =
             []
 
         King ->
-            []
+            Models.King.getKillPotential piece allPieces
 
         Queen ->
             []
@@ -32,7 +38,7 @@ getKillForAnyPiece : Piece -> List Piece -> List Coordinate
 getKillForAnyPiece piece allPieces =
     case piece.avatar.name of
         Knight ->
-            []
+            Models.Knight.getKillPotential piece allPieces
 
         Castle ->
             []
@@ -41,7 +47,7 @@ getKillForAnyPiece piece allPieces =
             []
 
         King ->
-            []
+            Models.King.getKillPotential piece allPieces
 
         Queen ->
             []

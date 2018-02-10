@@ -1,6 +1,6 @@
-module Models.Knight exposing (..)
+module Models.King exposing (..)
 
-import Models.Coordinate exposing (..)
+import Models.Coordinate exposing (Coordinate)
 import Models.Piece exposing (Piece)
 import ChessUtils exposing (areAnyPieceOnCoordinate, areAnyEnemiesOnCoordinate)
 
@@ -15,14 +15,14 @@ potentials { x, y } =
             in
                 Coordinate tupX tupY
         )
-        [ ( x + 1, y + 2 )
-        , ( x + 1, y - 2 )
-        , ( x - 1, y + 2 )
-        , ( x - 1, y - 2 )
-        , ( x + 2, y + 1 )
-        , ( x + 2, y - 1 )
-        , ( x - 2, y + 1 )
-        , ( x - 2, y - 1 )
+        [ ( x + 1, y + 1 )
+        , ( x + 1, y )
+        , ( x + 1, y - 1 )
+        , ( x - 1, y + 1 )
+        , ( x - 1, y )
+        , ( x - 1, y - 1 )
+        , ( x, y + 1 )
+        , ( x, y - 1 )
         ]
 
 

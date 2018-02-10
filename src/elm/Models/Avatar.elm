@@ -21,6 +21,16 @@ type FactionType
     | WhitePlayer
 
 
+enemyOf : FactionType -> FactionType
+enemyOf player1 =
+    case player1 of
+        BlackPlayer ->
+            WhitePlayer
+
+        WhitePlayer ->
+            BlackPlayer
+
+
 getFactionName : Avatar -> String
 getFactionName avatar =
     case avatar.faction of
