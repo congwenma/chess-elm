@@ -3,6 +3,7 @@ module Models.King exposing (..)
 import Models.Coordinate exposing (Coordinate)
 import Models.Piece exposing (Piece)
 import ChessUtils exposing (areAnyPieceOnCoordinate, areAnyEnemiesOnCoordinate)
+import Debug
 
 
 potentials : Coordinate -> List Coordinate
