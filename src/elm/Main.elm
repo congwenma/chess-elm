@@ -51,6 +51,7 @@ type alias Model =
     , potentialMoves : List Coordinate
     , potentialKills : List Coordinate
     , pieces : List Piece
+    , previousMovedPiece : Maybe Piece
     }
 
 
@@ -60,6 +61,7 @@ model =
     , potentialMoves = []
     , potentialKills = []
     , pieces = gameSet
+    , previousMovedPiece = Nothing
     }
 
 
@@ -115,7 +117,13 @@ update msg model =
                         Nothing ->
                             model.pieces
             in
-                { model | pieces = afterMovePieces, selectedPiece = Nothing, potentialMoves = [], potentialKills = [] }
+                { model
+                    | pieces = afterMovePieces
+                    , selectedPiece = Nothing
+                    , potentialMoves = []
+                    , potentialKills = []
+                    , previousMovedPiece = selectedPieceAfterMove
+                }
 
         KillPiece piece ->
             let
@@ -148,7 +156,13 @@ update msg model =
                         False ->
                             model.pieces
             in
-                { model | pieces = afterMovePieces, selectedPiece = Nothing, potentialMoves = [], potentialKills = [] }
+                { model
+                    | pieces = afterMovePieces
+                    , selectedPiece = Nothing
+                    , potentialMoves = []
+                    , potentialKills = []
+                    , previousMovedPiece = selectedPieceAfterKill
+                }
 
         OtherSelectPiece ->
             model
@@ -178,12 +192,12 @@ replacePieceInPieces selected allPieces =
 view : Model -> Html Msg
 view model =
     let
-        { pieces, potentialMoves, potentialKills, selectedPiece } =
+        { pieces, potentialMoves, potentialKills, selectedPiece, previousMovedPiece } =
             model
     in
         div [ class "m4 relative" ]
             [ div [ class "chess-board absolute" ]
                 (renderGrid potentialMoves potentialKills)
             , div [ class "chess-pieces" ]
-                (List.map (renderPiece selectedPiece) pieces)
+                (List.map (renderPiece selectedPiece previousMovedPiece) pieces)
             ]

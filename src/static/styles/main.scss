@@ -13,6 +13,7 @@ $SELECTED_COLOR: #aad;
 $HOVERED_COLOR: #ada;
 $POTENTIAL_MOVE_COLOR: #dad;
 $POTENTIAL_KILL_COLOR: #daa;
+$PREVIOUSLY_MOVED_COLOR: #fbf;
 
 .chess-board {
   width: $BOARD_WIDTH;
@@ -41,6 +42,10 @@ $POTENTIAL_KILL_COLOR: #daa;
   &.selected {
     color: white;
     background: $SELECTED_COLOR;
+  }
+  &.previousMoved {
+    transition: all 0.8s ease 0s;
+    background: $PREVIOUSLY_MOVED_COLOR;
   }
   &:hover {
     background: $HOVERED_COLOR;

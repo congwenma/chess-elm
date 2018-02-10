@@ -22,19 +22,30 @@ escapeAsciiCode str =
     )
 
 
-renderPiece : Maybe Piece -> Piece -> Html Msg
-renderPiece selectedPiece piece =
+renderPiece : Maybe Piece -> Maybe Piece -> Piece -> Html Msg
+renderPiece selectedPiece previousMovedPiece piece =
     let
         additionalClass =
-            case selectedPiece of
-                Nothing ->
-                    ""
-
-                Just selected ->
-                    if piece == selected then
-                        "selected"
-                    else
+            String.join " "
+                [ case selectedPiece of
+                    Nothing ->
                         ""
+
+                    Just selected ->
+                        if piece == selected then
+                            "selected"
+                        else
+                            ""
+                , case previousMovedPiece of
+                    Nothing ->
+                        ""
+
+                    Just previousMoved ->
+                        if piece == previousMoved then
+                            "previousMoved"
+                        else
+                            ""
+                ]
 
         clickHandler =
             case selectedPiece of
