@@ -11,6 +11,7 @@ import Debug
 import Models.Pawn exposing (getMovePotential, getKillPotential)
 import Models.Knight exposing (getMovePotential, getKillPotential)
 import Models.King exposing (getMovePotential, getKillPotential)
+import Models.Castle exposing (getMovePotential, getKillPotential)
 
 
 getMoveForAnyPiece : Piece -> List Piece -> List Coordinate
@@ -20,7 +21,7 @@ getMoveForAnyPiece piece allPieces =
             Models.Knight.getMovePotential piece allPieces
 
         Castle ->
-            []
+            Models.Castle.getMovePotential piece allPieces
 
         Bishop ->
             []
@@ -42,6 +43,7 @@ getKillForAnyPiece piece allPieces =
             Models.Knight.getKillPotential piece allPieces
 
         Castle ->
+            -- Models.Castle.getKillPotential piece allPieces
             []
 
         Bishop ->
