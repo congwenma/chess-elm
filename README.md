@@ -1,2 +1,2 @@
 # Demo
-https://congwenma.github.io/chess-elm/docs/
+https://congwenma.github.io/chess-elm/
