@@ -7,6 +7,11 @@ import Msg exposing (..)
 import Models.Coordinate exposing (Coordinate, intoStringXY, intoString)
 
 
+devMode : Bool
+devMode =
+    False
+
+
 expand n =
     List.range 0 (n - 1)
 
@@ -47,7 +52,11 @@ renderGrid potentialMoves potentialKills =
                                 , onClick (MovePiece coordinate)
                                 ]
                                 [ span [ class "h2" ]
-                                    [ text <| intoStringXY colNum rowNum
+                                    [ text <|
+                                        if devMode == True then
+                                            intoStringXY colNum rowNum
+                                        else
+                                            ""
                                     ]
                                 ]
                     )
