@@ -21,4 +21,6 @@ https://ellie-app.com/j4rq5y9ZPa1/0
 
 # Takeaways
 
-1. Sometimes trying to reuse code in Elm takes a lot of effort, though when they are compiled they usually works.
+1. Trying to reuse code in Elm takes a lot of effort (need to get the signature right, in the same order), though when they are compiled they usually works.
+
+2. Elm performs things asynchronously, so Task have to be used when you have one thing updating `model` and user interaction that needs to access `model` before the update finishes. How was this achieve in javascript without workers?.??

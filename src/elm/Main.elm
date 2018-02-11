@@ -57,12 +57,14 @@ view model =
     in
         div []
             [ Ui.Header.view
-                [ Ui.Header.title
-                    { action = Nothing
-                    , target = "_self"
-                    , link = Nothing
-                    , text = "Chess in Elm"
-                    }
+                [ h1 [ class "h1" ] [ text "Elm's Chess" ]
+
+                -- Ui.Header.title
+                -- { action = Nothing
+                -- , target = "_self"
+                -- , link = Nothing
+                -- , text = "Elm's chess"
+                -- }
                 ]
             , div []
                 [ div [ class "m4 relative" ]

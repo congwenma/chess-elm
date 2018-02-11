@@ -62,46 +62,11 @@ update msg model =
                         getKillForAnyPiece piece model.alivePieces
             }
 
-        MovePiece coordinate ->
-            let
-                -- info = Debug.log "MOVING PIECE" (toString coordinate)
-                coordinateIsPotentialMove =
-                    List.member coordinate model.potentialMoves
+        MovePiece positionToMoveTo ->
+            movePieceFn positionToMoveTo model
 
-                coordinateHasNoPiece =
-                    List.all (\piece -> not (piece.coordinate == coordinate)) model.alivePieces
-
-                selectedPieceAfterMove =
-                    -- Debug.log "SELECT PIECE AFTER MOVE" <|
-                    case model.selectedPiece of
-                        Just selectedPiece ->
-                            -- Debug.log "SELECT PIECE" <|
-                            if coordinateIsPotentialMove && coordinateHasNoPiece then
-                                Just { selectedPiece | coordinate = coordinate }
-                            else
-                                model.selectedPiece
-
-                        Nothing ->
-                            Nothing
-
-                afterMovePieces =
-                    case selectedPieceAfterMove of
-                        Just selectedPiece ->
-                            replacePieceInPieces selectedPiece model.pieces
-
-                        Nothing ->
-                            model.pieces
-            in
-                { model
-                    | pieces = afterMovePieces
-                    , selectedPiece = Nothing
-                    , potentialMoves = []
-                    , potentialKills = []
-                    , previousMovedPiece = selectedPieceAfterMove
-                }
-
-        KillPiece piece ->
-            killPieceFn piece model
+        KillPiece pieceToBeKilled ->
+            killPieceFn pieceToBeKilled model
 
         OtherSelectPiece ->
             model
@@ -164,3 +129,44 @@ killPieceFn pieceToBeKilled model =
                 , alivePieces = List.filter (\pce -> pce.status == Alive) afterMovePieces
                 , winner = winningCondition
             }
+
+
+movePieceFn : Coordinate -> Model -> Model
+movePieceFn positionToMoveTo model =
+    let
+        -- info = Debug.log "MOVING PIECE" (toString positionToMoveTo)
+        coordinateIsPotentialMove =
+            List.member positionToMoveTo model.potentialMoves
+
+        coordinateHasNoPiece =
+            List.all (\piece -> not (piece.coordinate == positionToMoveTo)) model.alivePieces
+
+        selectedPieceAfterMove =
+            -- Debug.log "SELECT PIECE AFTER MOVE" <|
+            case model.selectedPiece of
+                Just selectedPiece ->
+                    -- Debug.log "SELECT PIECE" <|
+                    if coordinateIsPotentialMove && coordinateHasNoPiece then
+                        Just { selectedPiece | coordinate = positionToMoveTo }
+                    else
+                        model.selectedPiece
+
+                Nothing ->
+                    Nothing
+
+        afterMovePieces =
+            case selectedPieceAfterMove of
+                Just selectedPiece ->
+                    replacePieceInPieces selectedPiece model.pieces
+
+                Nothing ->
+                    model.pieces
+    in
+        { model
+            | pieces = afterMovePieces
+            , alivePieces = afterMovePieces
+            , selectedPiece = Nothing
+            , potentialMoves = []
+            , potentialKills = []
+            , previousMovedPiece = selectedPieceAfterMove
+        }

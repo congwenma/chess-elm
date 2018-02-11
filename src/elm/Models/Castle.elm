@@ -40,7 +40,6 @@ potentialKills myCoord allPieces =
         allCoordinatesWithPiece =
             List.map (\pce -> pce.coordinate) allPieces
     in
-        -- Debug.log "********8Potential Kills" <|
         List.foldl
             (\maybeValue accu ->
                 case maybeValue of
@@ -74,16 +73,14 @@ potentials { x, y } allPieces =
             List.map (\pce -> pce.coordinate) allPieces
 
         info =
-            Debug.log "*CONTAINS pawn" <|
-                List.any (\p -> p.coordinate.x == 7 && p.coordinate.y == 6) allPieces
+            List.any (\p -> p.coordinate.x == 7 && p.coordinate.y == 6) allPieces
     in
         flatten2D <|
-            Debug.log "*POTENTIALS"
-                [ findPotentialLeft (x - 1) y allCoordinatesWithPiece []
-                , findPotentialRight (x + 1) y allCoordinatesWithPiece []
-                , findPotentialUp x (y - 1) allCoordinatesWithPiece []
-                , findPotentialDown x (y + 1) allCoordinatesWithPiece []
-                ]
+            [ findPotentialLeft (x - 1) y allCoordinatesWithPiece []
+            , findPotentialRight (x + 1) y allCoordinatesWithPiece []
+            , findPotentialUp x (y - 1) allCoordinatesWithPiece []
+            , findPotentialDown x (y + 1) allCoordinatesWithPiece []
+            ]
 
 
 findPotentialLeft x y allCoordinatesWithPiece accu =

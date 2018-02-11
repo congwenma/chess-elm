@@ -15,7 +15,7 @@ $POTENTIAL_MOVE_COLOR: #dad;
 $POTENTIAL_KILL_COLOR: #daa;
 $PREVIOUSLY_MOVED_COLOR: #fbf;
 
-a { color: white; }
+h1, h2, h3, h4, h5, h6, a { color: white !important; }
 .chess-board {
   width: $BOARD_WIDTH;
   background: green;
