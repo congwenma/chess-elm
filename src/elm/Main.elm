@@ -182,7 +182,7 @@ update msg model =
                             model.pieces
 
                 winningCondition =
-                    if piece.avatar.name == King && piece.status == Dead then
+                    if piece.avatar.name == King && not (List.member piece afterMovePieces) then
                         toString <| Models.Avatar.enemyOf piece.avatar.faction
                     else
                         noWinner

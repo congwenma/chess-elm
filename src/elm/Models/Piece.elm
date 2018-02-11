@@ -40,7 +40,7 @@ blackIconDict =
         , ( "Bishop", "9821" )
         , ( "King", "9819" )
         , ( "Queen", "9818" )
-        , ( "Pawn", "9821" )
+        , ( "Pawn", "9823" )
         ]
 
 

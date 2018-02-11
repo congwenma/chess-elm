@@ -41,6 +41,12 @@ $PREVIOUSLY_MOVED_COLOR: #fbf;
   font-weight: 400;
   transition: all 0.8s ease 0s;
 
+  border-radius: 50%;
+  width: 98px;
+  height: 98px;
+  margin-left: auto;
+  text-align: center;
+
   &.selected {
     color: white;
     background: $SELECTED_COLOR;
