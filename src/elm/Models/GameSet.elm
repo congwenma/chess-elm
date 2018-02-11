@@ -45,6 +45,8 @@ gameSetConfig =
     , { name = Castle, faction = WhitePlayer, x = 0, y = 7 }
     , { name = Knight, faction = WhitePlayer, x = 1, y = 7 }
     , { name = Bishop, faction = WhitePlayer, x = 2, y = 7 }
+
+    -- , { name = Bishop, faction = WhitePlayer, x = 4, y = 4 } -- TEST BISHOP
     , { name = King, faction = WhitePlayer, x = 3, y = 7 }
     , { name = Queen, faction = WhitePlayer, x = 4, y = 7 }
 

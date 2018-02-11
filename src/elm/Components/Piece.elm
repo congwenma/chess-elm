@@ -1,6 +1,6 @@
 module Components.Piece exposing (..)
 
-import Msg exposing (..)
+import Update exposing (Msg(..))
 import Models.Piece exposing (Piece, getPieceIcon)
 import Html exposing (..)
 import Html.Attributes exposing (..)

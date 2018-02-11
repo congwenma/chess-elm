@@ -40,31 +40,31 @@ potentialKills myCoord allPieces =
         allCoordinatesWithPiece =
             List.map (\pce -> pce.coordinate) allPieces
     in
-        Debug.log "********8Potential Kills" <|
-            List.foldl
-                (\maybeValue accu ->
-                    case maybeValue of
-                        Just value ->
-                            value :: accu
+        -- Debug.log "********8Potential Kills" <|
+        List.foldl
+            (\maybeValue accu ->
+                case maybeValue of
+                    Just value ->
+                        value :: accu
 
-                        Nothing ->
-                            accu
-                )
-                []
-            <|
-                [ findPotentialLeft (x - 1) y allCoordinatesWithPiece []
-                    |> firstInList myCoord
-                    |> applyToMaybeCoord (\coord -> Coordinate (coord.x - 1) coord.y)
-                , findPotentialRight (x + 1) y allCoordinatesWithPiece []
-                    |> firstInList myCoord
-                    |> applyToMaybeCoord (\coord -> Coordinate (coord.x + 1) coord.y)
-                , findPotentialUp x (y - 1) allCoordinatesWithPiece []
-                    |> firstInList myCoord
-                    |> applyToMaybeCoord (\coord -> Coordinate coord.x (coord.y - 1))
-                , findPotentialDown x (y + 1) allCoordinatesWithPiece []
-                    |> firstInList myCoord
-                    |> applyToMaybeCoord (\coord -> Coordinate coord.x (coord.y + 1))
-                ]
+                    Nothing ->
+                        accu
+            )
+            []
+        <|
+            [ findPotentialLeft (x - 1) y allCoordinatesWithPiece []
+                |> firstInList myCoord
+                |> applyToMaybeCoord (\coord -> Coordinate (coord.x - 1) coord.y)
+            , findPotentialRight (x + 1) y allCoordinatesWithPiece []
+                |> firstInList myCoord
+                |> applyToMaybeCoord (\coord -> Coordinate (coord.x + 1) coord.y)
+            , findPotentialUp x (y - 1) allCoordinatesWithPiece []
+                |> firstInList myCoord
+                |> applyToMaybeCoord (\coord -> Coordinate coord.x (coord.y - 1))
+            , findPotentialDown x (y + 1) allCoordinatesWithPiece []
+                |> firstInList myCoord
+                |> applyToMaybeCoord (\coord -> Coordinate coord.x (coord.y + 1))
+            ]
 
 
 potentials : Coordinate -> List Piece -> List Coordinate
@@ -72,13 +72,18 @@ potentials { x, y } allPieces =
     let
         allCoordinatesWithPiece =
             List.map (\pce -> pce.coordinate) allPieces
+
+        info =
+            Debug.log "*CONTAINS pawn" <|
+                List.any (\p -> p.coordinate.x == 7 && p.coordinate.y == 6) allPieces
     in
-        flatten2D
-            [ findPotentialLeft (x - 1) y allCoordinatesWithPiece []
-            , findPotentialRight (x + 1) y allCoordinatesWithPiece []
-            , findPotentialUp x (y - 1) allCoordinatesWithPiece []
-            , findPotentialDown x (y + 1) allCoordinatesWithPiece []
-            ]
+        flatten2D <|
+            Debug.log "*POTENTIALS"
+                [ findPotentialLeft (x - 1) y allCoordinatesWithPiece []
+                , findPotentialRight (x + 1) y allCoordinatesWithPiece []
+                , findPotentialUp x (y - 1) allCoordinatesWithPiece []
+                , findPotentialDown x (y + 1) allCoordinatesWithPiece []
+                ]
 
 
 findPotentialLeft x y allCoordinatesWithPiece accu =

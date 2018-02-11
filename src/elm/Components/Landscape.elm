@@ -3,13 +3,13 @@ module Components.Landscape exposing (renderGrid)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick)
-import Msg exposing (..)
+import Update exposing (Msg(..))
 import Models.Coordinate exposing (Coordinate, intoStringXY, intoString)
 
 
 devMode : Bool
 devMode =
-    False
+    True
 
 
 expand n =
