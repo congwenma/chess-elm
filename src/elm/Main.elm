@@ -28,6 +28,7 @@ import Msg exposing (..)
 -- import Support
 
 import Ui.Modal
+import Ui.Header
 import Debug exposing (..)
 import Utils exposing (getFromMaybe)
 
@@ -232,36 +233,44 @@ view model =
             model
     in
         div []
-            [ div [ class "m4 relative" ]
-                [ div [ class "chess-board absolute" ]
-                    (renderGrid potentialMoves potentialKills)
-                , div [ class "chess-pieces" ]
-                    (List.map (renderPiece selectedPiece previousMovedPiece) pieces)
+            [ Ui.Header.view
+                [ Ui.Header.title
+                    { action = Nothing
+                    , target = "_self"
+                    , link = Nothing
+                    , text = "Chess in Elm"
+                    }
                 ]
-            , Ui.Modal.view
-                -- (Ui.Modal.ViewModel
-                { contents =
-                    [ div []
-                        [ text <| winner ++ " has Won!"
-                        ]
+            , div []
+                [ div [ class "m4 relative" ]
+                    [ div [ class "chess-board absolute" ]
+                        (renderGrid potentialMoves potentialKills)
+                    , div [ class "chess-pieces" ]
+                        (List.map (renderPiece selectedPiece previousMovedPiece) pieces)
                     ]
-                , footer =
-                    [ div []
-                        [ button [ onClick ResetGame2 ]
-                            [ text "Play Again"
-                            ]
-                        , button [ onClick ResetGame2 ]
-                            [ text "Close"
+                , Ui.Modal.view
+                    -- (Ui.Modal.ViewModel
+                    { contents =
+                        [ div []
+                            [ text <| winner ++ " has Won!"
                             ]
                         ]
-                    ]
-                , address = ResetGame
-                , title = "Title"
-                }
-                { closable = True
-                , backdrop = True
-                , open = winner /= noWinner
-                }
-
-            -- "Black player won"
+                    , footer =
+                        [ div []
+                            [ button [ onClick ResetGame2 ]
+                                [ text "Play Again"
+                                ]
+                            , button [ onClick ResetGame2 ]
+                                [ text "Close"
+                                ]
+                            ]
+                        ]
+                    , address = ResetGame
+                    , title = "Title"
+                    }
+                    { closable = True
+                    , backdrop = True
+                    , open = winner /= noWinner
+                    }
+                ]
             ]
