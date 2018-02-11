@@ -47,6 +47,8 @@ gameSetConfig =
     , { name = Bishop, faction = WhitePlayer, x = 2, y = 7 }
     , { name = King, faction = WhitePlayer, x = 3, y = 7 }
     , { name = Queen, faction = WhitePlayer, x = 4, y = 7 }
+
+    -- , { name = Queen, faction = WhitePlayer, x = 4, y = 4 } -- TEST QUEEN
     , { name = Bishop, faction = WhitePlayer, x = 5, y = 7 }
     , { name = Knight, faction = WhitePlayer, x = 6, y = 7 }
     , { name = Castle, faction = WhitePlayer, x = 7, y = 7 }
@@ -59,6 +61,5 @@ gameSetConfig =
     , { name = Pawn, faction = WhitePlayer, x = 4, y = 6 }
     , { name = Pawn, faction = WhitePlayer, x = 5, y = 6 }
     , { name = Pawn, faction = WhitePlayer, x = 6, y = 6 }
-
-    -- , { name = Pawn, faction = WhitePlayer, x = 7, y = 6 }
+    , { name = Pawn, faction = WhitePlayer, x = 7, y = 6 }
     ]

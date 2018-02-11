@@ -1,4 +1,4 @@
-module Models.Castle exposing (..)
+module Models.Bishop exposing (..)
 
 import Models.Coordinate exposing (Coordinate)
 import Models.Piece exposing (Piece)
@@ -52,18 +52,18 @@ potentialKills myCoord allPieces =
                 )
                 []
             <|
-                [ findPotentialLeft (x - 1) y allCoordinatesWithPiece []
+                [ findPotentialLeftUp (x - 1) (y - 1) allCoordinatesWithPiece []
                     |> firstInList myCoord
-                    |> applyToMaybeCoord (\coord -> Coordinate (coord.x - 1) coord.y)
-                , findPotentialRight (x + 1) y allCoordinatesWithPiece []
+                    |> applyToMaybeCoord (\coord -> Coordinate (coord.x - 1) (coord.y - 1))
+                , findPotentialRightUp (x + 1) (y - 1) allCoordinatesWithPiece []
                     |> firstInList myCoord
-                    |> applyToMaybeCoord (\coord -> Coordinate (coord.x + 1) coord.y)
-                , findPotentialUp x (y - 1) allCoordinatesWithPiece []
+                    |> applyToMaybeCoord (\coord -> Coordinate (coord.x + 1) (coord.y - 1))
+                , findPotentialLeftDown (x - 1) (y + 1) allCoordinatesWithPiece []
                     |> firstInList myCoord
-                    |> applyToMaybeCoord (\coord -> Coordinate coord.x (coord.y - 1))
-                , findPotentialDown x (y + 1) allCoordinatesWithPiece []
+                    |> applyToMaybeCoord (\coord -> Coordinate (coord.x - 1) (coord.y + 1))
+                , findPotentialRightDown (x + 1) (y + 1) allCoordinatesWithPiece []
                     |> firstInList myCoord
-                    |> applyToMaybeCoord (\coord -> Coordinate coord.x (coord.y + 1))
+                    |> applyToMaybeCoord (\coord -> Coordinate (coord.x + 1) (coord.y + 1))
                 ]
 
 
@@ -74,54 +74,14 @@ potentials { x, y } allPieces =
             List.map (\pce -> pce.coordinate) allPieces
     in
         flatten2D
-            [ findPotentialLeft (x - 1) y allCoordinatesWithPiece []
-            , findPotentialRight (x + 1) y allCoordinatesWithPiece []
-            , findPotentialUp x (y - 1) allCoordinatesWithPiece []
-            , findPotentialDown x (y + 1) allCoordinatesWithPiece []
+            [ findPotentialLeftUp (x - 1) (y - 1) allCoordinatesWithPiece []
+            , findPotentialRightUp (x + 1) (y - 1) allCoordinatesWithPiece []
+            , findPotentialLeftDown (x - 1) (y + 1) allCoordinatesWithPiece []
+            , findPotentialRightDown (x + 1) (y + 1) allCoordinatesWithPiece []
             ]
 
 
-findPotentialLeft x y allCoordinatesWithPiece accu =
-    let
-        found =
-            List.any (\cwp -> cwp == Coordinate x y) allCoordinatesWithPiece
-    in
-        case found || x < 0 of
-            True ->
-                accu
-
-            False ->
-                findPotentialLeft (x - 1) y allCoordinatesWithPiece (Coordinate x y :: accu)
-
-
-findPotentialRight x y allCoordinatesWithPiece accu =
-    let
-        found =
-            List.any (\cwp -> cwp == Coordinate x y) allCoordinatesWithPiece
-    in
-        case found || x > 7 of
-            True ->
-                accu
-
-            False ->
-                findPotentialRight (x + 1) y allCoordinatesWithPiece (Coordinate x y :: accu)
-
-
-findPotentialDown x y allCoordinatesWithPiece accu =
-    let
-        found =
-            List.any (\cwp -> cwp == Coordinate x y) allCoordinatesWithPiece
-    in
-        case found || y > 7 of
-            True ->
-                accu
-
-            False ->
-                findPotentialDown x (y + 1) allCoordinatesWithPiece (Coordinate x y :: accu)
-
-
-findPotentialUp : Int -> Int -> List Coordinate -> List Coordinate -> List Coordinate
-findPotentialUp x y allCoordinatesWithPiece accu =
+findPotentialLeftUp x y allCoordinatesWithPiece accu =
     let
         found =
             List.any (\cwp -> cwp == Coordinate x y) allCoordinatesWithPiece
@@ -131,7 +91,47 @@ findPotentialUp x y allCoordinatesWithPiece accu =
                 accu
 
             False ->
-                findPotentialUp x (y - 1) allCoordinatesWithPiece (Coordinate x y :: accu)
+                findPotentialLeftUp (x - 1) (y - 1) allCoordinatesWithPiece (Coordinate x y :: accu)
+
+
+findPotentialRightUp x y allCoordinatesWithPiece accu =
+    let
+        found =
+            List.any (\cwp -> cwp == Coordinate x y) allCoordinatesWithPiece
+    in
+        case found || y < 0 of
+            True ->
+                accu
+
+            False ->
+                findPotentialRightUp (x + 1) (y - 1) allCoordinatesWithPiece (Coordinate x y :: accu)
+
+
+findPotentialLeftDown x y allCoordinatesWithPiece accu =
+    let
+        found =
+            List.any (\cwp -> cwp == Coordinate x y) allCoordinatesWithPiece
+    in
+        case found || y > 7 of
+            True ->
+                accu
+
+            False ->
+                findPotentialLeftDown (x - 1) (y + 1) allCoordinatesWithPiece (Coordinate x y :: accu)
+
+
+findPotentialRightDown : Int -> Int -> List Coordinate -> List Coordinate -> List Coordinate
+findPotentialRightDown x y allCoordinatesWithPiece accu =
+    let
+        found =
+            List.any (\cwp -> cwp == Coordinate x y) allCoordinatesWithPiece
+    in
+        case found || y > 7 of
+            True ->
+                accu
+
+            False ->
+                findPotentialRightDown (x + 1) (y + 1) allCoordinatesWithPiece (Coordinate x y :: accu)
 
 
 getMovePotential : Piece -> List Piece -> List Coordinate
