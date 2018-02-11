@@ -5,15 +5,12 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (onClick)
 import Update exposing (Msg(..))
 import Models.Coordinate exposing (Coordinate, intoStringXY, intoString)
+import Utils exposing (expand)
 
 
 devMode : Bool
 devMode =
     True
-
-
-expand n =
-    List.range 0 (n - 1)
 
 
 gridDimension : { x : Int, y : Int }

@@ -20,3 +20,7 @@ incrementFromMaybe maybeNum =
         Nothing ->
             -- if this return Nothing, this key is deleted
             Just 1
+
+
+expand n =
+    List.range 0 (n - 1)

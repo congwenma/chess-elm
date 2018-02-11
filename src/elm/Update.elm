@@ -101,61 +101,66 @@ update msg model =
                 }
 
         KillPiece piece ->
-            let
-                coordinateIsPotentialKill =
-                    List.member piece.coordinate model.potentialKills
-
-                selectedPieceAfterKill =
-                    -- Debug.log "SELECT PIECE AFTER MOVE" <|
-                    case model.selectedPiece of
-                        Just selectedPiece ->
-                            -- Debug.log "SELECT PIECE" <|
-                            if coordinateIsPotentialKill then
-                                Just { selectedPiece | coordinate = piece.coordinate }
-                            else
-                                model.selectedPiece
-
-                        Nothing ->
-                            Nothing
-
-                afterMovePieces =
-                    case coordinateIsPotentialKill of
-                        True ->
-                            case selectedPieceAfterKill of
-                                Just sPiece ->
-                                    replacePieceInPieces sPiece model.pieces
-                                        |> List.map
-                                            (\pce ->
-                                                if pce == piece then
-                                                    { pce | status = Dead }
-                                                else
-                                                    pce
-                                            )
-
-                                Nothing ->
-                                    model.pieces
-
-                        False ->
-                            model.pieces
-
-                winningCondition =
-                    if piece.avatar.name == King && not (List.member piece afterMovePieces) then
-                        toString <| Models.Avatar.enemyOf piece.avatar.faction
-                    else
-                        noWinner
-            in
-                { model
-                    | pieces = afterMovePieces
-                    , selectedPiece = Nothing
-                    , potentialMoves = []
-                    , potentialKills = []
-                    , previousMovedPiece = selectedPieceAfterKill
-                    , alivePieces = List.filter (\pce -> pce.status == Alive) afterMovePieces
-                    , winner = winningCondition
-                }
+            killPieceFn piece model
 
         OtherSelectPiece ->
             model
 
         OtherMovePiece ->
             model
+
+
+killPieceFn : Piece -> Model -> Model
+killPieceFn pieceToBeKilled model =
+    let
+        coordinateIsPotentialKill =
+            List.member pieceToBeKilled.coordinate model.potentialKills
+
+        selectedPieceAfterKill =
+            -- Debug.log "SELECT pieceToBeKilled AFTER MOVE" <|
+            case model.selectedPiece of
+                Just selectedPiece ->
+                    -- Debug.log "SELECT pieceToBeKilled" <|
+                    if coordinateIsPotentialKill then
+                        Just { selectedPiece | coordinate = pieceToBeKilled.coordinate }
+                    else
+                        model.selectedPiece
+
+                Nothing ->
+                    Nothing
+
+        afterMovePieces =
+            if coordinateIsPotentialKill then
+                case selectedPieceAfterKill of
+                    Just newPiece ->
+                        -- markAsDead newPiece model.pieces
+                        replacePieceInPieces newPiece model.pieces
+                            |> List.map
+                                (\pce ->
+                                    if pce == pieceToBeKilled then
+                                        { pce | status = Dead }
+                                    else
+                                        pce
+                                )
+
+                    Nothing ->
+                        model.pieces
+            else
+                model.pieces
+
+        winningCondition =
+            if pieceToBeKilled.avatar.name == King && not (List.member pieceToBeKilled afterMovePieces) then
+                toString <| Models.Avatar.enemyOf pieceToBeKilled.avatar.faction
+            else
+                noWinner
+    in
+        Debug.log "Update completed" <|
+            { model
+                | pieces = afterMovePieces
+                , selectedPiece = Nothing
+                , potentialMoves = []
+                , potentialKills = []
+                , previousMovedPiece = selectedPieceAfterKill
+                , alivePieces = List.filter (\pce -> pce.status == Alive) afterMovePieces
+                , winner = winningCondition
+            }
