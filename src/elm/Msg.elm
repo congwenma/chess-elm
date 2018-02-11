@@ -2,6 +2,7 @@ module Msg exposing (..)
 
 import Models.Coordinate exposing (..)
 import Models.Piece exposing (..)
+import Ui.Modal
 
 
 type Msg
@@ -10,3 +11,5 @@ type Msg
     | KillPiece Piece
     | OtherSelectPiece
     | OtherMovePiece
+    | ResetGame Ui.Modal.Msg
+    | ResetGame2

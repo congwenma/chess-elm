@@ -13,6 +13,7 @@ import Components.Piece exposing (renderPiece)
 
 -- import Model
 
+import Models.Avatar exposing (AvatarType(King))
 import Models.Piece exposing (Piece, PieceStatus(..))
 import Models.GameSet exposing (gameSet)
 import Models.Coordinate exposing (Coordinate)
@@ -26,6 +27,7 @@ import Msg exposing (..)
 
 -- import Support
 
+import Ui.Modal
 import Debug exposing (..)
 import Utils exposing (getFromMaybe)
 
@@ -36,7 +38,7 @@ import Utils exposing (getFromMaybe)
 main : Program Never Model Msg
 main =
     Html.beginnerProgram
-        { model = model
+        { model = init
         , view = view
         , update = update
         }
@@ -53,6 +55,7 @@ type alias Model =
     , potentialMoves : List Coordinate
     , potentialKills : List Coordinate
     , previousMovedPiece : Maybe Piece
+    , winner : String
 
     -- all Pieces
     , pieces : List Piece
@@ -60,12 +63,15 @@ type alias Model =
     }
 
 
-model : Model
-model =
+init : Model
+init =
     { selectedPiece = Nothing
     , potentialMoves = []
     , potentialKills = []
     , previousMovedPiece = Nothing
+    , winner = ""
+
+    -- all pieces
     , pieces = gameSet
     , alivePieces = gameSet
     }
@@ -78,6 +84,12 @@ model =
 update : Msg -> Model -> Model
 update msg model =
     case msg of
+        ResetGame2 ->
+            init
+
+        ResetGame uimsg ->
+            Debug.log "****Reset Game" <| init
+
         SelectPiece piece ->
             { model
                 | selectedPiece = Just piece
@@ -168,6 +180,12 @@ update msg model =
 
                         False ->
                             model.pieces
+
+                winningCondition =
+                    if piece.avatar.name == King && piece.status == Dead then
+                        toString <| Models.Avatar.enemyOf piece.avatar.faction
+                    else
+                        noWinner
             in
                 { model
                     | pieces = afterMovePieces
@@ -176,6 +194,7 @@ update msg model =
                     , potentialKills = []
                     , previousMovedPiece = selectedPieceAfterKill
                     , alivePieces = List.filter (\pce -> pce.status == Alive) afterMovePieces
+                    , winner = winningCondition
                 }
 
         OtherSelectPiece ->
@@ -201,15 +220,48 @@ replacePieceInPieces selected allPieces =
 -- VIEW:
 
 
+noWinner : String
+noWinner =
+    ""
+
+
 view : Model -> Html Msg
 view model =
     let
-        { pieces, potentialMoves, potentialKills, selectedPiece, previousMovedPiece } =
+        { pieces, potentialMoves, potentialKills, selectedPiece, previousMovedPiece, winner } =
             model
     in
-        div [ class "m4 relative" ]
-            [ div [ class "chess-board absolute" ]
-                (renderGrid potentialMoves potentialKills)
-            , div [ class "chess-pieces" ]
-                (List.map (renderPiece selectedPiece previousMovedPiece) pieces)
+        div []
+            [ div [ class "m4 relative" ]
+                [ div [ class "chess-board absolute" ]
+                    (renderGrid potentialMoves potentialKills)
+                , div [ class "chess-pieces" ]
+                    (List.map (renderPiece selectedPiece previousMovedPiece) pieces)
+                ]
+            , Ui.Modal.view
+                -- (Ui.Modal.ViewModel
+                { contents =
+                    [ div []
+                        [ text <| winner ++ " has Won!"
+                        ]
+                    ]
+                , footer =
+                    [ div []
+                        [ button [ onClick ResetGame2 ]
+                            [ text "Play Again"
+                            ]
+                        , button [ onClick ResetGame2 ]
+                            [ text "Close"
+                            ]
+                        ]
+                    ]
+                , address = ResetGame
+                , title = "Title"
+                }
+                { closable = True
+                , backdrop = True
+                , open = winner /= noWinner
+                }
+
+            -- "Black player won"
             ]
